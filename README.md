@@ -21,3 +21,9 @@ To add a new page, you need to modify
 Previous html pages can be found at:
 
     content
+
+### Deploy
+
+    gulp
+    
+Then push the content of the "dist" directory to gh-pages or to wherever you want to serve the website from.
