@@ -12,5 +12,6 @@ To modify the content, edit:
     app/index.html
 
 To add a new page, you need to modify
+
     app/index.html
     app/elemments/elements.html
