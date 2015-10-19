@@ -9327,14 +9327,14 @@ this.fire('dom-change');
 
 <script>
 
-  /** 
-   * `Polymer.PaperRippleBehavior` dynamically implements a ripple 
+  /**
+   * `Polymer.PaperRippleBehavior` dynamically implements a ripple
    * when the element has focus via pointer or keyboard.
    *
    * NOTE: This behavior is intended to be used in conjunction with and after
    * `Polymer.IronButtonState` and `Polymer.IronControlState`.
    *
-   * @polymerBehavior Polymer.PaperRippleBehavior 
+   * @polymerBehavior Polymer.PaperRippleBehavior
    */
   Polymer.PaperRippleBehavior = {
 
@@ -9346,11 +9346,18 @@ this.fire('dom-change');
       noink: {
         type: Boolean,
         observer: '_noinkChanged'
+      },
+
+      /**
+       * @type {Element|undefined}
+       */
+      _rippleContainer: {
+        type: Object,
       }
     },
 
     /**
-     * Ensures a `<paper-ripple>` element is available when the element is 
+     * Ensures a `<paper-ripple>` element is available when the element is
      * focused.
      */
     _buttonStateChanged: function() {
@@ -9359,7 +9366,7 @@ this.fire('dom-change');
       }
     },
 
-    /** 
+    /**
      * In addition to the functionality provided in `IronButtonState`, ensures
      * a ripple effect is created when the element is in a `pressed` state.
      */
@@ -9371,12 +9378,12 @@ this.fire('dom-change');
     },
 
     /**
-     * Ensures this element contains a ripple effect. For startup efficiency 
+     * Ensures this element contains a ripple effect. For startup efficiency
      * the ripple effect is dynamically on demand when needed.
-     * @param {event} triggeringEvent (optional) event that triggered the 
+     * @param {!Event=} opt_triggeringEvent (optional) event that triggered the
      * ripple.
      */
-    ensureRipple: function(triggeringEvent) {
+    ensureRipple: function(opt_triggeringEvent) {
       if (!this.hasRipple()) {
         this._ripple = this._createRipple();
         this._ripple.noink = this.noink;
@@ -9384,10 +9391,13 @@ this.fire('dom-change');
         if (rippleContainer) {
           Polymer.dom(rippleContainer).appendChild(this._ripple);
         }
-        var domContainer = rippleContainer === this.shadyRoot ? this : 
+        var domContainer = rippleContainer === this.shadyRoot ? this :
           rippleContainer;
-        if (triggeringEvent && domContainer.contains(triggeringEvent.target)) {
-          this._ripple.uiDownAction(triggeringEvent);
+        if (opt_triggeringEvent) {
+          var target = opt_triggeringEvent.target;
+          if (domContainer.contains(/** @type {Node} */(target))) {
+            this._ripple.uiDownAction(opt_triggeringEvent);
+          }
         }
       }
     },
@@ -9395,7 +9405,7 @@ this.fire('dom-change');
     /**
      * Returns the `<paper-ripple>` element used by this element to create
      * ripple effects. The element's ripple is created on demand, when
-     * necessary, and calling this method will force the 
+     * necessary, and calling this method will force the
      * ripple to be created.
      */
     getRipple: function() {
@@ -9414,10 +9424,11 @@ this.fire('dom-change');
     /**
      * Create the element's ripple effect via creating a `<paper-ripple>`.
      * Override this method to customize the ripple element.
-     * @return {element} Returns a `<paper-ripple>` element.
+     * @return {!PaperRippleElement} Returns a `<paper-ripple>` element.
      */
     _createRipple: function() {
-      return document.createElement('paper-ripple');
+      return /** @type {!PaperRippleElement} */ (
+          document.createElement('paper-ripple'));
     },
 
     _noinkChanged: function(noink) {
@@ -9481,8 +9492,10 @@ this.fire('dom-change');
     },
 
     /**
-     * In addition to `IronButtonState` behavior, when space key goes down, 
+     * In addition to `IronButtonState` behavior, when space key goes down,
      * create a ripple down effect.
+     *
+     * @param {!KeyboardEvent} event .
      */
     _spaceKeyDownHandler: function(event) {
       Polymer.IronButtonStateImpl._spaceKeyDownHandler.call(this, event);
@@ -9492,8 +9505,10 @@ this.fire('dom-change');
     },
 
     /**
-     * In addition to `IronButtonState` behavior, when space key goes up, 
+     * In addition to `IronButtonState` behavior, when space key goes up,
      * create a ripple up effect.
+     *
+     * @param {!KeyboardEvent} event .
      */
     _spaceKeyUpHandler: function(event) {
       Polymer.IronButtonStateImpl._spaceKeyUpHandler.call(this, event);
@@ -13958,37 +13973,38 @@ iron-selector:not(.narrow-layout) #main ::content [paper-drawer-toggle] {
   </script>
 </dom-module>
 <dom-module id="paper-material" assetpath="../bower_components/paper-material/">
-  <style>
-    :host {
-      display: block;
-      position: relative;
-    }
-
-    :host([animated]) {
-      @apply(--shadow-transition);
-    }
-
-    :host([elevation="1"]) {
-      @apply(--shadow-elevation-2dp);
-    }
-
-    :host([elevation="2"]) {
-      @apply(--shadow-elevation-4dp);
-    }
-
-    :host([elevation="3"]) {
-      @apply(--shadow-elevation-6dp);
-    }
-
-    :host([elevation="4"]) {
-      @apply(--shadow-elevation-8dp);
-    }
-
-    :host([elevation="5"]) {
-      @apply(--shadow-elevation-16dp);
-    }
-  </style>
   <template>
+    <style>
+      :host {
+        display: block;
+        position: relative;
+      }
+
+      :host([animated]) {
+        @apply(--shadow-transition);
+      }
+
+      :host([elevation="1"]) {
+        @apply(--shadow-elevation-2dp);
+      }
+
+      :host([elevation="2"]) {
+        @apply(--shadow-elevation-4dp);
+      }
+
+      :host([elevation="3"]) {
+        @apply(--shadow-elevation-6dp);
+      }
+
+      :host([elevation="4"]) {
+        @apply(--shadow-elevation-8dp);
+      }
+
+      :host([elevation="5"]) {
+        @apply(--shadow-elevation-16dp);
+      }
+    </style>
+
     <content></content>
   </template>
 </dom-module>
@@ -13997,7 +14013,6 @@ iron-selector:not(.narrow-layout) #main ::content [paper-drawer-toggle] {
     is: 'paper-material',
 
     properties: {
-
       /**
        * The z-depth of this element, from 0-5. Setting to 0 will remove the
        * shadow, and each increasing number greater than 0 will be "deeper"
