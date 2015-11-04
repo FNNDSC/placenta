@@ -26,9 +26,20 @@ body {
   width: 100%;
 }
 
+.mediaContainer > iframe.tall {
+  height: 400px;
+  max-height: 400px;
+  width: 100%;
+}
+
 .mediaContainer > p {
   background: #353535;
   color: #fff;
   font-weight: lighter;
   padding: 5px;
 }
+
+.mediaContainer > p.tall {
+  margin-top: 0;
+}
+
